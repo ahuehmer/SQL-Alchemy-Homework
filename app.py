@@ -47,7 +47,7 @@ def welcome():
 @app.route("/api/v1.0/precipitation")
 def precipitation():
     
-    # Create our session (link) from Python to the DB
+    # Create our session (link) from Python to the database
     session = Session(engine)
     
     # Query recent precipitation data
@@ -70,7 +70,7 @@ def precipitation():
 @app.route("/api/v1.0/stations")
 def stations():
     
-    # Create our session (link) from Python to the DB
+    # Create our session (link) from Python to the database
     session = Session(engine)
 
     # Query station data
@@ -90,7 +90,7 @@ def stations():
 @app.route("/api/v1.0/tobs")
 def temperature():
     
-    # Create our session (link) from Python to the DB
+    # Create our session (link) from Python to the database
     session = Session(engine)
 
     # Query temperature data
@@ -115,7 +115,7 @@ def temperature():
 @app.route("/api/v1.0/<start>")
 def temp_by_start_date(start):
     
-    # Create our session (link) from Python to the DB
+    # Create our session (link) from Python to the database
     session = Session(engine)
     
     #Query necessary data
@@ -125,6 +125,7 @@ def temp_by_start_date(start):
     #Close session
     session.close()
     
+    # Create dictionary
     temp_by_start_date_list = []
     for temperature in temp_by_start_date:
         temp_by_start_date_dict = {"Min": temperature[0], "Max": temperature[1], "Avg": temperature[2]}
@@ -135,7 +136,7 @@ def temp_by_start_date(start):
 @app.route("/api/v1.0/<start>/<end>")
 def temp_by_start_end(start, end):
     
-    # Create our session (link) from Python to the DB
+    # Create our session (link) from Python to the database
     session = Session(engine)
     
     #Query necessary data
@@ -145,12 +146,14 @@ def temp_by_start_end(start, end):
     #Close session
     session.close()
     
+    # Create dictionary
     temp_by_start_end_list = []
     for temperature in temp_by_start_end:
         temp_by_start_end_dict = {"Min": temperature[0], "Max": temperature[1], "Avg": temperature[2]}
         temp_by_start_end_list.append(temp_by_start_end_dict)
 
     return jsonify(temp_by_start_end_list)
+
 
 
 if __name__ == "__main__":
