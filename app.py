@@ -122,6 +122,9 @@ def temp_by_start_date(start):
     sel = [func.min(measurement.tobs), func.max(measurement.tobs), func.avg(measurement.tobs)]
     temp_by_start_date = session.query(*sel).filter(measurement.date >= start).all()
 
+    #Close session
+    session.close()
+    
     temp_by_start_date_list = []
     for temperature in temp_by_start_date:
         temp_by_start_date_dict = {"Min": temperature[0], "Max": temperature[1], "Avg": temperature[2]}
@@ -129,6 +132,25 @@ def temp_by_start_date(start):
 
     return jsonify(temp_by_start_date_list)
 
+@app.route("/api/v1.0/<start>/<end>")
+def temp_by_start_end(start, end):
+    
+    # Create our session (link) from Python to the DB
+    session = Session(engine)
+    
+    #Query necessary data
+    sel = [func.min(measurement.tobs), func.max(measurement.tobs), func.avg(measurement.tobs)]
+    temp_by_start_end = session.query(*sel).filter(measurement.date >= start).filter(measurement.date <= end).all()
+
+    #Close session
+    session.close()
+    
+    temp_by_start_end_list = []
+    for temperature in temp_by_start_end:
+        temp_by_start_end_dict = {"Min": temperature[0], "Max": temperature[1], "Avg": temperature[2]}
+        temp_by_start_end_list.append(temp_by_start_end_dict)
+
+    return jsonify(temp_by_start_end_list)
 
 
 if __name__ == "__main__":
